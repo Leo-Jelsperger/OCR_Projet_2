@@ -262,3 +262,34 @@ footer nav ul {
   justify-content: flex-end;
   margin: 2em;
 }
+
+/* Filters CSS */
+
+.filters {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-block: 50px;
+}
+
+.filter-buttons {
+  font-family: "Syne";
+  font-weight: 700;
+  font-size: 16px;
+  box-sizing: border-box;
+  padding: 9px 20px;
+  background-color: white;
+  border: 1px solid #1d6154;
+  border-radius: 1000px;
+  color: #1d6154;
+  cursor: pointer;
+}
+
+.display-none {
+  display: none;
+}
+
+.used-btn {
+  background-color: #1d6154 !important;
+  color: white !important;
+}
