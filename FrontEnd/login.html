@@ -24,24 +24,54 @@
       href="./assets/style.css" />
   </head>
   <body>
-    <header>
-      <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-      <nav>
-        <ul>
-          <li>projets</li>
-          <li>contact</li>
-          <li>login</li>
-          <li>
-            <img
-              src="./assets/icons/instagram.png"
-              alt="Instagram" />
-          </li>
-        </ul>
-      </nav>
-    </header>
-    <main>
-      <section id="login"></section>
-    </main>
+    <div class="wrapper">
+      <header>
+        <a href="index.html">
+          <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1></a
+        >
+        <nav>
+          <ul>
+            <li><a href="#">projets</a></li>
+            <li><a href="#">contact</a></li>
+            <li><a href="login.html">login</a></li>
+            <li>
+              <a href="#">
+                <img
+                  src="./assets/icons/instagram.png"
+                  alt="Instagram"
+              /></a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        <section id="login">
+          <h1>Log In</h1>
+          <form
+            action=""
+            id="login-form">
+            <div>
+              <label for="email">E-mail</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                required />
+            </div>
+            <div>
+              <label for="password">Mot de passe</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                required />
+            </div>
+            <button type="submit">Se connecter</button>
+          </form>
+          <a href="#">Mot de passe oublié</a>
+        </section>
+      </main>
+    </div>
 
     <footer>
       <nav>

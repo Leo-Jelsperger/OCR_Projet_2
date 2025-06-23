@@ -17,7 +17,6 @@ const gallery = document.querySelector(".gallery");
 
 getData().then((data) => {
   let html = "";
-  console.log(data);
   data.forEach((elt) => {
     html += `
     <figure class="category-${elt.categoryId}">
@@ -45,7 +44,6 @@ const filters = [
 function filterClick(targetedClass, activeBtn) {
   const figures = gallery.querySelectorAll("figure");
   const btn = document.querySelectorAll(".filter-buttons");
-  console.log(activeBtn);
   btn.forEach((elt) => elt.classList.remove("used-btn"));
   activeBtn.classList.add("used-btn");
   if (targetedClass === "category-0") {
@@ -68,3 +66,36 @@ filters.forEach((filter) => {
     );
   }
 });
+
+document
+  .getElementById("login-form")
+  .addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    try {
+      const response = await fetch("http://localhost:5678/api/users/login", {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        alert("Connexion réussie !");
+        console.log("Connexion réussie :", data);
+        document.getElementById("message").textContent = "Connexion réussie !";
+      } else {
+        alert("Erreur : " + (data.message || "Erreur de connexion."));
+        console.log("Erreur de connexion :", data);
+        document.getElementById("message").textContent =
+          data.message || "Erreur de connexion.";
+      }
+    } catch (error) {
+      alert("Erreur réseau ou serveur.");
+      document.getElementById("message").textContent =
+        "Erreur réseau ou serveur.";
+    }
+  });

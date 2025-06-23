@@ -129,11 +129,22 @@ table {
 }
 /** end reset css**/
 body {
-  max-width: 1140px;
-  margin: auto;
+  margin: 0 auto;
   font-family: "Work Sans";
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  background-color: rgba(255, 254, 248, 1);
 }
+
+.wrapper {
+  max-width: 1140px;
+  margin-inline: auto;
+  width: 100%;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -164,19 +175,31 @@ h2 {
   font-size: 30px;
   color: #1d6154;
 }
-nav ul {
-  display: flex;
-  align-items: center;
-  list-style-type: none;
-}
-nav li {
-  padding: 0 10px;
-  font-size: 1.2em;
+
+header {
+  nav ul {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+  }
+  nav li {
+    padding: 0 10px;
+    font-size: 1.2em;
+  }
+
+  nav a:hover {
+    color: #b1663c;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  nav a {
+    color: black;
+  }
 }
 
-li:hover {
-  color: #b1663c;
-}
 #introduction {
   display: flex;
   align-items: center;
@@ -257,10 +280,16 @@ input[type="submit"] {
   border-radius: 60px;
 }
 
+footer {
+  background-color: white;
+  width: full;
+  padding: 24px 0px 20px auto;
+}
+
 footer nav ul {
   display: flex;
   justify-content: flex-end;
-  margin: 2em;
+  padding: 2em 107px 2em 0;
 }
 
 /* Filters CSS */
@@ -292,4 +321,59 @@ footer nav ul {
 .used-btn {
   background-color: #1d6154 !important;
   color: white !important;
+}
+
+/* Log In Page */
+
+#login {
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #1d6154;
+    margin-top: 150px;
+    margin-inline: auto;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 37px;
+    margin-bottom: 28px;
+    width: 379px;
+    margin-inline: auto;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    input {
+      padding: 16px 8px;
+      box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+    }
+
+    button {
+      width: fit-content;
+      padding: 10px 38px;
+      margin-inline: auto;
+      background-color: #1d6154;
+      color: white;
+      border-radius: 100000px;
+    }
+  }
+
+  a {
+    margin-inline: auto;
+    text-decoration: underline;
+    color: black;
+  }
+
+  a:hover {
+    color: #1d6154;
+  }
 }
