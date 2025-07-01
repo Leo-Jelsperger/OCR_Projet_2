@@ -16,6 +16,12 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
       rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
     <meta
       name="description"
       content="" />
@@ -71,24 +77,31 @@
           </article>
         </section>
         <section id="portfolio">
-          <h2>Mes Projets</h2>
+          <div class="portfolio-title">
+            <h2>Mes Projets</h2>
+            <div id="hidden-content"></div>
+          </div>
           <div class="filters">
             <button
+              data-id="0"
               id="all"
-              class="filter-buttons">
+              class="filter-buttons used-btn">
               Tous
             </button>
             <button
+              data-id="1"
               id="items"
               class="filter-buttons">
               Objets
             </button>
             <button
+              data-id="2"
               id="flats"
               class="filter-buttons">
               Appartements
             </button>
             <button
+              data-id="3"
               id="hotels-and-restaurants"
               class="filter-buttons">
               Hotels & restaurants
@@ -125,6 +138,7 @@
         </section>
       </main>
     </div>
+
     <footer>
       <nav>
         <ul>
@@ -132,6 +146,6 @@
         </ul>
       </nav>
     </footer>
-    <script src="script.js" />
+    <script src="script-index.js" />
   </body>
 </html>

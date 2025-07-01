@@ -177,6 +177,8 @@ h2 {
 }
 
 header {
+  margin-inline: 20px;
+
   nav ul {
     display: flex;
     align-items: center;
@@ -227,6 +229,7 @@ header {
   text-align: center;
   margin-bottom: 1em;
 }
+
 .gallery {
   width: 100%;
   display: grid;
@@ -376,4 +379,166 @@ footer nav ul {
   a:hover {
     color: #1d6154;
   }
+
+  #message {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease, height 0.5s ease;
+    color: red;
+    font-weight: 700;
+    margin-inline: auto;
+  }
+
+  #message.visible {
+    opacity: 1;
+    height: 3rem;
+  }
+}
+
+/* Hidden Content */
+
+.portfolio-title {
+  position: relative;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.portfolio-title h2 {
+  width: fit-content;
+}
+
+#modifier {
+  display: flex;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 31px;
+  gap: 10px;
+  border: none;
+  background-color: transparent;
+  font-family: "Work Sans";
+  font-size: 14px;
+  cursor: pointer;
+  * {
+    margin-block: auto;
+  }
+}
+
+/* Modale Window */
+
+#modale {
+  background-color: white;
+  opacity: 100% !important;
+  border-radius: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 688px;
+  max-width: 630px;
+  height: 80%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  z-index: 3;
+
+  #close {
+    margin: 0;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+  }
+
+  i {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    left: auto;
+    bottom: auto;
+    font-size: 24px;
+  }
+
+  h2 {
+    font-weight: 400;
+    font-size: 26px;
+    font-family: "Work Sans";
+    margin: 60px auto 40px auto;
+  }
+
+  #modale-gallery {
+    height: auto;
+    overflow-y: scroll;
+    margin-inline: 105px;
+    border-bottom: 1px solid #b3b3b3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 9px;
+    grid-row-gap: 9px;
+    padding-bottom: 20px;
+  }
+
+  #add {
+    margin: 40px auto 45px auto;
+    padding: 10px 50px;
+    font-family: "Syne";
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 1000px;
+    background-color: #1d6154;
+    color: white;
+    cursor: pointer;
+  }
+
+  #modale-gallery {
+    figure {
+      position: relative;
+    }
+
+    .trashBtn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background-color: black;
+      padding: 3px;
+      height: 17px;
+      width: 17px;
+      border: none;
+      cursor: pointer;
+      border-radius: 3px;
+      display: flex;
+    }
+
+    i {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background-color: black;
+      padding: 5px;
+      color: white;
+      font-size: 15px;
+      margin: auto;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    img {
+      height: auto;
+      width: 100%;
+    }
+  }
+}
+
+#modale-bg {
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 50%;
+  display: flex;
 }
