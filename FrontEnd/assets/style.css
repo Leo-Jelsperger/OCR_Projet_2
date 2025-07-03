@@ -593,6 +593,13 @@ footer nav ul {
     select {
       cursor: pointer;
     }
+    input,
+    select {
+      box-shadow: 0px 4px 14px 0px #00000017;
+      font-size: 14px;
+      padding: 16px;
+      color: #444444;
+    }
     #image {
       opacity: 0;
       position: absolute;
@@ -600,14 +607,22 @@ footer nav ul {
     }
     .image-upload {
       margin-bottom: 30px;
+      height: 116px;
+      padding-block: 20px;
       width: 100%;
       background-color: #e8f1f6;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      padding-block: 20px;
+      justify-content: space-between;
       text-align: center;
       cursor: pointer;
+      object-fit: contain;
+
+      img {
+        object-fit: contain;
+        height: 100%;
+        width: 100%;
+      }
 
       i {
         color: #b9c5cc;
@@ -662,6 +677,9 @@ footer nav ul {
 .border-top {
   border-top: 1px solid #b3b3b3;
   display: flex;
+  flex-direction: column;
+  position: relative;
+  text-align: center;
 }
 
 .alert-message {
@@ -699,4 +717,15 @@ footer nav ul {
 .alert-message span {
   position: relative;
   z-index: 1;
+}
+
+#form-error {
+  width: 100%;
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.5s ease, height 0.5s ease;
+  color: red;
+  font-weight: 700;
 }

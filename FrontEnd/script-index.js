@@ -124,8 +124,8 @@ async function openModale() {
                 id="submit"
                 class="submit"
                 type="submit"
-                disabled
                 value="Valider" />
+              <p id="form-error"></p>
             </div>
           </form>        
       </section>
@@ -159,15 +159,36 @@ async function openModale() {
   const title = modaleWindow.querySelector("#title");
   const category = modaleWindow.querySelector("#category");
 
+  function handleClick() {
+    let emptyValue;
+    !image.files.length
+      ? (emptyValue = "Image")
+      : !title.value
+      ? (emptyValue = "Titre")
+      : !category.value
+      ? (emptyValue = "Catégorie")
+      : "";
+    const formError = modaleWindow.querySelector("#form-error");
+    formError.textContent = `Elément manquant : ${emptyValue}`;
+    formError.classList.add("visible");
+  }
+
+  submit.addEventListener("click", (e) => {
+    handleClick(e);
+  });
+
   function updateSubmitState() {
+    const form = modaleWindow.querySelector("form");
     if (image.files.length && title.value && category.value) {
       submit.style.backgroundColor = "#1d6154";
       submit.style.cursor = "pointer";
-      submit.disabled = false;
+      form.addEventListener("submit", async (e) => {
+        await addArticle(e);
+        updateSubmitState();
+      });
     } else {
       submit.style.backgroundColor = "";
       submit.style.cursor = "not-allowed";
-      submit.disabled = true;
     }
   }
 
@@ -182,25 +203,12 @@ async function openModale() {
       reader.onload = function (e) {
         modaleWindow.querySelector(
           ".image-upload"
-        ).style.backgroundImage = `url('${e.target.result}')`;
-        modaleWindow.querySelector(
-          ".image-upload"
-        ).style.backgroundSize = `cover`;
-        modaleWindow.querySelector(
-          ".image-upload"
-        ).style.backgroundRepeat = `no-repeat`;
-        modaleWindow.querySelector(
-          ".image-upload"
-        ).style.backgroundPosition = `center`;
+        ).innerHTML = `<img src="${e.target.result}" alt="" class="">`;
+        modaleWindow.querySelector(".image-upload").style.paddingBlock = `0`;
+        modaleWindow.querySelector(".image-upload").style.height = `156px`;
       };
       reader.readAsDataURL(file);
     }
-  });
-
-  const form = modaleWindow.querySelector("form");
-  form.addEventListener("submit", async (e) => {
-    await addArticle(e);
-    updateSubmitState();
   });
 }
 
@@ -283,6 +291,16 @@ async function addArticle(e) {
         addModaleGalleryContent(elt);
       });
       openAlert("Projet ajouté");
+      const formError = modaleWindow.querySelector("#form-error");
+      formError.textContent = ``;
+      formError.classList.remove("visible");
+      modaleWindow.querySelector(".image-upload").innerHTML = `
+        <i class="fa-regular fa-image"></i>
+        <p class="capsule">+ Ajouter photo</p>
+        <p>jpg, png : 4mo max</p>
+      `;
+      modaleWindow.querySelector(".image-upload").style.paddingBlock = `20px`;
+      modaleWindow.querySelector(".image-upload").style.height = `116px`;
     } else {
       const errorData = await response.json();
       alert(`Erreur : ${errorData.message || response.status}`);
@@ -338,8 +356,4 @@ function openAlert(msg) {
   setTimeout(() => {
     figure.remove();
   }, 3000);
-}
-
-function handleMouseOver() {
-  openAlert("Formulaire incomplet");
 }
