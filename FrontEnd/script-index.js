@@ -160,10 +160,14 @@ async function openModale() {
   const category = modaleWindow.querySelector("#category");
 
   function updateSubmitState() {
-    if (image.value && title.value && category.value) {
+    if (image.files.length && title.value && category.value) {
       submit.style.backgroundColor = "#1d6154";
       submit.style.cursor = "pointer";
       submit.disabled = false;
+    } else {
+      submit.style.backgroundColor = "";
+      submit.style.cursor = "not-allowed";
+      submit.disabled = true;
     }
   }
 
@@ -194,7 +198,10 @@ async function openModale() {
   });
 
   const form = modaleWindow.querySelector("form");
-  form.addEventListener("submit", addArticle);
+  form.addEventListener("submit", async (e) => {
+    await addArticle(e);
+    updateSubmitState();
+  });
 }
 
 function showAddForm() {
@@ -275,6 +282,7 @@ async function addArticle(e) {
         addGalleryContent(elt);
         addModaleGalleryContent(elt);
       });
+      openAlert("Projet ajouté");
     } else {
       const errorData = await response.json();
       alert(`Erreur : ${errorData.message || response.status}`);
@@ -311,4 +319,27 @@ function addModaleGalleryContent(elt) {
   modaleFigure
     .querySelector(".fa-trash-can")
     .addEventListener("click", () => deleteArticle(elt.id));
+}
+
+function openAlert(msg) {
+  const temp = document.createElement("div");
+  temp.innerHTML = `
+     <div class="alert-message">
+      <span>${msg}</span>
+    </div>
+    `;
+  const figure = temp.firstElementChild;
+  document.body.appendChild(figure);
+
+  setTimeout(() => {
+    figure.classList.add("active");
+  }, 10);
+
+  setTimeout(() => {
+    figure.remove();
+  }, 3000);
+}
+
+function handleMouseOver() {
+  openAlert("Formulaire incomplet");
 }

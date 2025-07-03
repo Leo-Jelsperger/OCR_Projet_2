@@ -473,6 +473,7 @@ footer nav ul {
 
     i {
       font-size: 24px;
+      background-color: white;
     }
   }
 
@@ -513,6 +514,7 @@ footer nav ul {
     color: white;
     cursor: pointer;
     margin-top: auto;
+    border: none;
   }
 
   #modale-gallery {
@@ -660,4 +662,41 @@ footer nav ul {
 .border-top {
   border-top: 1px solid #b3b3b3;
   display: flex;
+}
+
+.alert-message {
+  position: fixed;
+  margin-top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 30px;
+  z-index: 10;
+  background: rgb(0, 77, 13);
+  border-radius: 1000px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  font-family: "Syne";
+  overflow: hidden;
+}
+
+.alert-message::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, green);
+  z-index: 0;
+  transition: width 3s ease-in-out;
+}
+
+.alert-message.active::before {
+  width: 100%;
+}
+
+.alert-message span {
+  position: relative;
+  z-index: 1;
 }
