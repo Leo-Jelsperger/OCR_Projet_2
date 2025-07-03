@@ -459,27 +459,10 @@ footer nav ul {
     margin: 60px auto 0 auto;
   }
 
-  #close {
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    margin: 0;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-    width: auto;
-    height: auto;
-    z-index: 6;
-
-    i {
-      font-size: 24px;
-    }
-  }
-
+  #close,
   #back {
     position: absolute;
     top: 30px;
-    left: 30px;
     margin: 0;
     padding: 0;
     border: none;
@@ -492,12 +475,20 @@ footer nav ul {
       font-size: 24px;
     }
   }
+
+  #close {
+    right: 30px;
+  }
+
+  #back {
+    left: calc(100% + 30px);
+    transition: all 0.5s ease-out;
+  }
 }
 
-#modale-main {
+.modale-elt {
   position: absolute;
   top: 0;
-  right: 0;
   height: 100%;
   width: 100%;
   display: flex;
@@ -506,9 +497,13 @@ footer nav ul {
   margin: 0;
   padding: 0;
   transition: all 0.5s ease-out;
+}
+
+#modale-main {
+  right: 0;
 
   #add {
-    margin: 40px auto 45px auto;
+    margin: 40px auto 55px auto;
     padding: 10px 50px;
     font-family: "Syne";
     font-size: 14px;
@@ -571,17 +566,82 @@ footer nav ul {
 }
 
 #modale-form {
-  position: absolute;
-  top: 0;
   right: -100%;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  margin: 0;
-  padding: 0;
-  transition: all 0.5s ease-out;
+
+  form {
+    height: 100%;
+    margin: 0px 105px 55px 105px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: space-between;
+  }
+
+  .form-main {
+    display: flex;
+    flex-direction: column;
+    label {
+      margin-bottom: 10px;
+      font-weight: 500;
+      color: #3d3d3d;
+    }
+    input {
+      margin-bottom: 21px;
+    }
+    select {
+      cursor: pointer;
+    }
+    #image {
+      opacity: 0;
+      position: absolute;
+      left: -9999px;
+    }
+    .image-upload {
+      margin-bottom: 30px;
+      width: 100%;
+      background-color: #e8f1f6;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-block: 20px;
+      text-align: center;
+      cursor: pointer;
+
+      i {
+        color: #b9c5cc;
+        font-size: 60px;
+      }
+      p {
+        font-size: 10px;
+        font-weight: 400;
+        color: #444444;
+      }
+      .capsule {
+        background-color: #b9c5cc;
+        padding: 10px 33px;
+        border-radius: 100000px;
+        color: #306685;
+        width: fit-content;
+        font-size: 14px;
+        font-weight: 500;
+        margin-inline: auto;
+      }
+    }
+  }
+
+  .submit {
+    all: unset;
+    padding: 10px 50px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: "Syne";
+    margin-inline: auto;
+    border-radius: 10000px;
+    background-color: #a7a7a7;
+    color: white;
+    cursor: not-allowed;
+    margin-top: 32px;
+  }
 }
 
 #modale-bg {
@@ -595,4 +655,9 @@ footer nav ul {
   opacity: 50%;
   display: flex;
   z-index: 3;
+}
+
+.border-top {
+  border-top: 1px solid #b3b3b3;
+  display: flex;
 }

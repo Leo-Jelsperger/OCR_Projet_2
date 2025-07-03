@@ -1,3 +1,5 @@
+const gallery = document.querySelector(".gallery");
+
 async function isLogged() {
   const token = localStorage.getItem("token");
   if (!token) {
@@ -33,19 +35,9 @@ async function getData() {
   }
 }
 
-const gallery = document.querySelector(".gallery");
-
 getData().then((data) => {
   data.forEach((elt) => {
-    const temp = document.createElement("div");
-    temp.innerHTML = `
-      <figure data-id="${elt.id}" data-category-id="${elt.categoryId}">
-        <img src="${elt.imageUrl}" alt="${elt.title}" />
-        <figcaption>${elt.title}</figcaption>
-      </figure>
-    `;
-    const figure = temp.firstElementChild;
-    gallery.appendChild(figure);
+    addGalleryContent(elt);
   });
 });
 
@@ -80,19 +72,62 @@ async function openModale() {
   temp.innerHTML = `
   <div id="modale-window">
     <div id="modale-wrapper">
+      <button id="back">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>  
       <button id="close">
         <i class="fa-solid fa-xmark"></i>
       </button>
-      <button id="back">
-        <i id="back" class="fa-solid fa-arrow-left"></i>
-      </button>  
-      <section id="modale-main">
+      <section id="modale-main" class="modale-elt">
         <h2>Galerie photo</h2>
         <div id="modale-gallery"></div>
         <button id="add">Ajouter une photo</button>
       </section>
-      <section id="modale-form">
+      <section id="modale-form" class="modale-elt">
         <h2>Ajout photo</h2>
+        <form
+            action=""
+            method="post">
+            <div class="form-main">
+              <label
+                for="image"
+                class="image-upload">
+                <i class="fa-regular fa-image"></i>
+                <p class="capsule">+ Ajouter photo</p>
+                <p>jpg, png : 4mo max</p>
+              </label>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                accept="image/*"
+                required />
+              <label for="title">Titre</label>
+              <input
+                type="text"
+                name="title"
+                id="title"
+                required />
+              <label for="category">Catégorie</label>
+              <select
+                name="category"
+                id="category"
+                required>
+                <option value="" disabled selected></option>
+                <option value="1">Objets</option>
+                <option value="2">Appartements</option>
+                <option value="3">Hotels & restaurents</option>
+              </select>
+            </div>
+            <div class="border-top">
+              <input
+                id="submit"
+                class="submit"
+                type="submit"
+                disabled
+                value="Valider" />
+            </div>
+          </form>        
       </section>
     </div>
   </div>
@@ -112,25 +147,67 @@ async function openModale() {
 
   modaleWindow.querySelector("#close").addEventListener("click", closeModale);
   modaleWindow.querySelector("#add").addEventListener("click", showAddForm);
-
   modaleBg.addEventListener("click", closeModale);
 
-  const modaleGallery = modaleWindow.querySelector("#modale-gallery");
   const data = await getData();
   data.forEach((elt) => {
-    const temp = document.createElement("div");
-    temp.innerHTML = `
-      <figure data-id="${elt.id}" data-category-id="${elt.categoryId}">
-        <i class="fa-solid fa-trash-can"></i>
-        <img src="${elt.imageUrl}" alt="${elt.title}" />
-      </figure>
-    `;
-    const figure = temp.firstElementChild;
-    modaleGallery.appendChild(figure);
+    addModaleGalleryContent(elt);
+  });
 
-    figure
-      .querySelector(".fa-trash-can")
-      .addEventListener("click", () => deleteArticle(elt.id));
+  const submit = modaleWindow.querySelector("#submit");
+  const image = modaleWindow.querySelector("#image");
+  const title = modaleWindow.querySelector("#title");
+  const category = modaleWindow.querySelector("#category");
+
+  function updateSubmitState() {
+    if (image.value && title.value && category.value) {
+      submit.style.backgroundColor = "#1d6154";
+      submit.style.cursor = "pointer";
+      submit.disabled = false;
+    }
+  }
+
+  [image, title, category].forEach((input) => {
+    input.addEventListener("input", updateSubmitState);
+  });
+
+  image.addEventListener("input", () => {
+    const file = image.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        modaleWindow.querySelector(
+          ".image-upload"
+        ).style.backgroundImage = `url('${e.target.result}')`;
+        modaleWindow.querySelector(
+          ".image-upload"
+        ).style.backgroundSize = `cover`;
+        modaleWindow.querySelector(
+          ".image-upload"
+        ).style.backgroundRepeat = `no-repeat`;
+        modaleWindow.querySelector(
+          ".image-upload"
+        ).style.backgroundPosition = `center`;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  const form = modaleWindow.querySelector("form");
+  form.addEventListener("submit", addArticle);
+}
+
+function showAddForm() {
+  const main = document.querySelector("#modale-main");
+  const form = document.querySelector("#modale-form");
+  const back = document.querySelector("#back");
+  main.style.right = "100%";
+  form.style.right = "0%";
+  back.style.left = "30px";
+  back.addEventListener("click", () => {
+    main.style.right = "0%";
+    form.style.right = "-100%";
+    back.style.left = "calc(100% + 30px)";
   });
 }
 
@@ -153,47 +230,85 @@ async function deleteArticle(id) {
       },
     });
     if (response.status === 204) {
-      const modalFigure = document
+      document
         .querySelector(`#modale-gallery figure[data-id="${id}"]`)
         .remove();
-
-      const mainFigure = document
-        .querySelector(`.gallery figure[data-id="${id}"]`)
-        .remove();
+      document.querySelector(`.gallery figure[data-id="${id}"]`).remove();
     }
   } catch (error) {
     console.error(error);
   }
 }
 
-async function addArticle(id) {
+async function addArticle(e) {
+  e.preventDefault();
   const token = localStorage.getItem("token");
+
+  const modaleWindow = document.querySelector("#modale-window");
+  const image = modaleWindow.querySelector("#image");
+  const title = modaleWindow.querySelector("#title");
+  const category = modaleWindow.querySelector("#category");
+  const form = modaleWindow.querySelector("form");
+  const modaleGallery = modaleWindow.querySelector("#modale-gallery");
+
+  const formData = new FormData();
+  formData.append("image", image.files[0]);
+  formData.append("title", title.value);
+  formData.append("category", category.value);
+
   try {
-    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+    const response = await fetch("http://localhost:5678/api/works", {
       method: "POST",
       headers: {
+        accept: "application/json",
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
       },
+      body: formData,
     });
-    if (response.status === 204) {
-      const modalFigure = document
-        .querySelector(`#modale-gallery figure[data-id="${id}"]`)
-        .remove();
-
-      const mainFigure = document
-        .querySelector(`.gallery figure[data-id="${id}"]`)
-        .remove();
+    if (response.ok) {
+      form.reset();
+      modaleWindow.querySelector(".image-upload").style.backgroundImage = "";
+      gallery.innerHTML = "";
+      modaleGallery.innerHTML = "";
+      const data = await getData();
+      data.forEach((elt) => {
+        addGalleryContent(elt);
+        addModaleGalleryContent(elt);
+      });
+    } else {
+      const errorData = await response.json();
+      alert(`Erreur : ${errorData.message || response.status}`);
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 }
 
-function showAddForm() {
-  const main = document.querySelector("#modale-main");
-  const form = document.querySelector("#modale-form");
-  const back = document.querySelector("#back");
-  main.style.right = "100%";
-  form.style.right = "0%";
+function addGalleryContent(elt) {
+  const temp = document.createElement("div");
+  temp.innerHTML = `
+              <figure data-id="${elt.id}" data-category-id="${elt.categoryId}">
+                <img src="${elt.imageUrl}" alt="${elt.title}" />
+                <figcaption>${elt.title}</figcaption>
+              </figure>
+            `;
+  const figure = temp.firstElementChild;
+  gallery.appendChild(figure);
+}
+
+function addModaleGalleryContent(elt) {
+  const modaleGallery = document.querySelector("#modale-gallery");
+  const modaleTemp = document.createElement("div");
+  modaleTemp.innerHTML = `
+      <figure data-id="${elt.id}" data-category-id="${elt.categoryId}">
+        <i class="fa-solid fa-trash-can"></i>
+        <img src="${elt.imageUrl}" alt="${elt.title}" />
+      </figure>
+    `;
+  const modaleFigure = modaleTemp.firstElementChild;
+  modaleGallery.appendChild(modaleFigure);
+
+  modaleFigure
+    .querySelector(".fa-trash-can")
+    .addEventListener("click", () => deleteArticle(elt.id));
 }
