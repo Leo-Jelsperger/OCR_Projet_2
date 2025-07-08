@@ -41,6 +41,40 @@ getData().then((data) => {
   });
 });
 
+async function getBtn() {
+  try {
+    const response = await fetch("http://localhost:5678/api/categories", {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Erreur :", error);
+  }
+}
+
+getBtn().then((data) => {
+  const btnList = document.querySelector(".filters");
+  data.forEach((elt) => {
+    const temp = document.createElement("div");
+    temp.innerHTML = `
+    <button
+      data-id="${elt.id}"
+      id="${elt.name}"
+      class="filter-buttons">
+      ${elt.name}
+    </button>
+    `;
+    const newBtn = temp.firstElementChild;
+    btnList.appendChild(newBtn);
+  });
+  createBtnEvent();
+});
+
 function filterClick(event) {
   const figures = gallery.querySelectorAll("figure");
   const btn = document.querySelectorAll(".filter-buttons");
@@ -64,8 +98,6 @@ function createBtnEvent() {
   const btns = document.querySelectorAll(".filters button");
   btns.forEach((elt) => elt.addEventListener("click", (e) => filterClick(e)));
 }
-
-createBtnEvent();
 
 async function openModale() {
   const temp = document.createElement("div");
@@ -114,9 +146,6 @@ async function openModale() {
                 id="category"
                 required>
                 <option value="" disabled selected></option>
-                <option value="1">Objets</option>
-                <option value="2">Appartements</option>
-                <option value="3">Hotels & restaurents</option>
               </select>
             </div>
             <div class="border-top">
@@ -158,6 +187,14 @@ async function openModale() {
   const image = modaleWindow.querySelector("#image");
   const title = modaleWindow.querySelector("#title");
   const category = modaleWindow.querySelector("#category");
+
+  const btns = await getBtn();
+  btns.forEach((elt) => {
+    const temp = document.createElement("div");
+    temp.innerHTML = `<option value="${elt.id}">${elt.name}</option>`;
+    const newSelect = temp.firstElementChild;
+    category.appendChild(newSelect);
+  });
 
   function handleClick() {
     let emptyValue;
