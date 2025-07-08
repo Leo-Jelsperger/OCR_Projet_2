@@ -58,19 +58,16 @@ async function getBtn() {
 }
 
 getBtn().then((data) => {
-  const btnList = document.querySelector(".filters");
   data.forEach((elt) => {
-    const temp = document.createElement("div");
-    temp.innerHTML = `
-    <button
+    addDomElt(
+      ".filters",
+      `<button
       data-id="${elt.id}"
       id="${elt.name}"
       class="filter-buttons">
       ${elt.name}
-    </button>
-    `;
-    const newBtn = temp.firstElementChild;
-    btnList.appendChild(newBtn);
+    </button>`
+    );
   });
   createBtnEvent();
 });
@@ -100,9 +97,9 @@ function createBtnEvent() {
 }
 
 async function openModale() {
-  const temp = document.createElement("div");
-  temp.innerHTML = `
-  <div id="modale-window">
+  addDomElt(
+    "body",
+    `<div id="modale-window">
     <div id="modale-wrapper">
       <button id="back">
         <i class="fa-solid fa-arrow-left"></i>
@@ -159,20 +156,14 @@ async function openModale() {
           </form>        
       </section>
     </div>
-  </div>
-  `;
+  </div>`
+  );
+  addDomElt("body", `<div id="modale-bg"></div>`);
 
-  const bgTemp = document.createElement("div");
-  bgTemp.innerHTML = `  
-    <div id="modale-bg"></div>
-    `;
-
-  const modaleWindow = temp.firstElementChild;
-  const modaleBg = bgTemp.firstElementChild;
-
-  document.body.appendChild(modaleWindow);
-  document.body.appendChild(modaleBg);
   document.body.style.overflow = "hidden";
+
+  const modaleWindow = document.querySelector("#modale-window");
+  const modaleBg = document.querySelector("#modale-bg");
 
   modaleWindow.querySelector("#close").addEventListener("click", closeModale);
   modaleWindow.querySelector("#add").addEventListener("click", showAddForm);
@@ -190,10 +181,7 @@ async function openModale() {
 
   const btns = await getBtn();
   btns.forEach((elt) => {
-    const temp = document.createElement("div");
-    temp.innerHTML = `<option value="${elt.id}">${elt.name}</option>`;
-    const newSelect = temp.firstElementChild;
-    category.appendChild(newSelect);
+    addDomElt("#category", `<option value="${elt.id}">${elt.name}</option>`);
   });
 
   function handleClick() {
@@ -348,15 +336,14 @@ async function addArticle(e) {
 }
 
 function addGalleryContent(elt) {
-  const temp = document.createElement("div");
-  temp.innerHTML = `
-              <figure data-id="${elt.id}" data-category-id="${elt.categoryId}">
-                <img src="${elt.imageUrl}" alt="${elt.title}" />
-                <figcaption>${elt.title}</figcaption>
-              </figure>
-            `;
-  const figure = temp.firstElementChild;
-  gallery.appendChild(figure);
+  addDomElt(
+    ".gallery",
+    `<figure data-id="${elt.id}" data-category-id="${elt.categoryId}">
+        <img src="${elt.imageUrl}" alt="${elt.title}" />
+        <figcaption>${elt.title}</figcaption>
+      </figure>
+    `
+  );
 }
 
 function addModaleGalleryContent(elt) {
@@ -377,20 +364,28 @@ function addModaleGalleryContent(elt) {
 }
 
 function openAlert(msg) {
-  const temp = document.createElement("div");
-  temp.innerHTML = `
+  addDomElt(
+    "body",
+    `
      <div class="alert-message">
       <span>${msg}</span>
     </div>
-    `;
-  const figure = temp.firstElementChild;
-  document.body.appendChild(figure);
+    `
+  );
 
   setTimeout(() => {
-    figure.classList.add("active");
+    document.querySelector(".alert-message").classList.add("active");
   }, 10);
 
   setTimeout(() => {
-    figure.remove();
+    document.querySelector(".alert-message").remove();
   }, 3000);
+}
+
+function addDomElt(selector, content) {
+  const domElt = document.querySelector(selector);
+  const temp = document.createElement("div");
+  temp.innerHTML = content;
+  const newElt = temp.firstElementChild;
+  domElt.appendChild(newElt);
 }
