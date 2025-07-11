@@ -140,6 +140,22 @@ body {
   background-color: rgba(255, 254, 248, 1);
 }
 
+#edition-mode {
+  height: 59px;
+  width: 100%;
+  background-color: black;
+  color: white;
+  display: none;
+  gap: 12px;
+  justify-content: center;
+  font-size: 16px;
+
+  p,
+  i {
+    margin-block: auto;
+  }
+}
+
 .wrapper {
   max-width: 1140px;
   margin-inline: auto;
@@ -151,6 +167,7 @@ header {
   justify-content: space-between;
   margin: 50px 0;
 }
+
 section {
   margin: 50px 0;
 }

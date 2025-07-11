@@ -14,7 +14,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   const logIn = document.querySelector("#login");
   const logOut = document.querySelector("#logout");
   if (logged) {
-    console.log(logged);
     logIn.classList.add("display-none");
     logOut.classList.remove("display-none");
     const hiddenContent =
@@ -23,9 +22,12 @@ window.addEventListener("DOMContentLoaded", async () => {
     const projectModifier = document.querySelector("#modifier");
     projectModifier.addEventListener("click", openModale);
     document.querySelector(".filters").style.display = "none";
+    document.querySelector("#edition-mode").style.display = "flex";
   } else {
     logIn.classList.remove("display-none");
     logOut.classList.add("display-none");
+    document.querySelector(".filters").style.display = "flex";
+    document.querySelector("#edition-mode").style.display = "none";
   }
   logOut.addEventListener("click", function (e) {
     e.preventDefault();
