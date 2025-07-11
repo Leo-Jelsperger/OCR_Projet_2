@@ -55,6 +55,7 @@ getData().then((data) => {
   data.forEach((elt) => {
     addGalleryContent(elt);
   });
+  setTimeout(scrollToTarget, 200);
 });
 
 async function getCategories() {
@@ -415,4 +416,21 @@ function addDomElt(selector, content) {
   temp.innerHTML = content;
   const newElt = temp.firstElementChild;
   domElt.appendChild(newElt);
+}
+
+function scrollToTarget() {
+  if (sessionStorage.getItem("scrollToContact") === "1") {
+    const target = document.querySelector("#contact");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+      sessionStorage.removeItem("scrollToContact");
+    }
+  }
+  if (sessionStorage.getItem("scrollToProjects") === "1") {
+    const target = document.querySelector("#my-projects");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+      sessionStorage.removeItem("scrollToProjects");
+    }
+  }
 }

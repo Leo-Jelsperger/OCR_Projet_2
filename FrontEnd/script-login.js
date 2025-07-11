@@ -29,3 +29,15 @@ document
         "Erreur réseau ou serveur.";
     }
   });
+
+document
+  .querySelector('a[href="index.html#my-projects"]')
+  .addEventListener("click", function () {
+    sessionStorage.setItem("scrollToProjects", "1");
+  });
+
+document
+  .querySelector('a[href="index.html#contact"]')
+  .addEventListener("click", function () {
+    sessionStorage.setItem("scrollToContact", "1");
+  });
