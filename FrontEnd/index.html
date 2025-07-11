@@ -37,9 +37,18 @@
         >
         <nav>
           <ul>
-            <li><a href="#">projets</a></li>
-            <li><a href="#">contact</a></li>
-            <li><a href="login.html">login</a></li>
+            <li><a href="#my-projects">projets</a></li>
+            <li><a href="#contact">contact</a></li>
+            <li
+              id="login"
+              class="">
+              <a href="login.html">login</a>
+            </li>
+            <li
+              id="logout"
+              class="display-none">
+              <a href="#">logout</a>
+            </li>
             <li>
               <a href="#">
                 <img
@@ -78,10 +87,12 @@
         </section>
         <section id="portfolio">
           <div class="portfolio-title">
-            <h2>Mes Projets</h2>
+            <h2 id="my-projects">Mes Projets</h2>
             <div id="hidden-content"></div>
           </div>
-          <div class="filters">
+          <div
+            class="filters"
+            id="filters">
             <button
               data-id="0"
               id="Tous"
@@ -128,6 +139,6 @@
         </ul>
       </nav>
     </footer>
-    <script src="script-index.js" />
+    <script src="script-index.js"></script>
   </body>
 </html>
