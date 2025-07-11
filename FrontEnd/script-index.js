@@ -22,6 +22,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.querySelector("#hidden-content").innerHTML = hiddenContent;
     const projectModifier = document.querySelector("#modifier");
     projectModifier.addEventListener("click", openModale);
+    document.querySelector(".filters").style.display = "none";
   } else {
     logIn.classList.remove("display-none");
     logOut.classList.add("display-none");
